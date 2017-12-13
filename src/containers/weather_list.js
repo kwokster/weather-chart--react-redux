@@ -7,12 +7,15 @@ class WeatherList extends Component {
 	renderWeather(cityData) {
 		const name = cityData.city.name;
 		const temps = cityData.list.map(weather => weather.main.temp);
+		const pres = cityData.list.map(weather => weather.main.pressure);
+		const humidity = cityData.list.map(weather => weather.main.humidity);
+
 		return (
 			<tr key={name}>
 				<td>{name}</td>
-				<td>
-					<Chart data={temps} color="blue" />
-				</td>
+				<td><Chart data={temps} color="blue" units="c" /></td>
+				<td><Chart data={pres} color="orange" units="hPa" /></td>
+				<td><Chart data={humidity} color="green" units="%" /></td>
 			</tr>
 		);
 	}
@@ -23,9 +26,9 @@ class WeatherList extends Component {
 				<thead>
 					<tr>
 						<th>City</th>
-						<th>Temperature</th>
-						<th>Pressure</th>
-						<th>Humidity</th>
+						<th>Temperature (c)</th>
+						<th>Pressure (hPa)</th>
+						<th>Humidity (%)</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -37,7 +40,7 @@ class WeatherList extends Component {
 }
 
 function mapStateToProps({ weather }) { //equals to something like this:  const weather = state.weather
-	return {weather }; // { weather } === { weather: weather }
+	return { weather }; // { weather } === { weather: weather }
 }
 
 export default connect(mapStateToProps)(WeatherList);
